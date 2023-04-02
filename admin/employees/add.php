@@ -99,8 +99,8 @@
 						  <?php
 					  }
 					} else {
-					  $sql = "INSERT INTO hr_employee (f_name, l_name, code, email,pass,status,department,designation,gender,blood_group,cp_number,date_of_birth,date_of_joining,date_of_leaving,username,sss,pagibig,philhealth,tin)
-						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$sss','$pagibig','$philhealth','$tin')";
+					  $sql = "INSERT INTO hr_employee (f_name, l_name, code, email,pass,status,department,designation,gender,blood_group,cp_number,date_of_birth,date_of_joining,date_of_leaving,username,sss,pagibig,philhealth,tin,medical_status)
+						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$sss','$pagibig','$philhealth','$tin','pending')";
 
 						if ($conn->query($sql) === TRUE) {
 
