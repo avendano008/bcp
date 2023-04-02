@@ -4,14 +4,14 @@
 
 	$id=$_POST['id'];
 
-	$sql = "UPDATE employee SET status='inactive' WHERE id='$id'";
+	$sql = "UPDATE hr_employee SET status='inactive' WHERE id='$id'";
 
 		if ($conn->query($sql) === TRUE) {
 
 							$title="Employees";
 							$description="Employee has been move to archive";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 		 	?>

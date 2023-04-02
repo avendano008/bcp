@@ -60,7 +60,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-								$sql = "SELECT * FROM designation ORDER BY id DESC";
+								$sql = "SELECT * FROM hr_designation ORDER BY id DESC";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {
@@ -141,7 +141,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM designation WHERE id='$id'";
+			$sql = "SELECT * FROM hr_designation WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			$name=$row['name'];

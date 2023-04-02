@@ -8,7 +8,7 @@
 	$days=$_POST['days'];
 	$year=$_POST['year'];
 
-	$sql = "INSERT INTO leaves (name, start_date,end_date,days,year)
+	$sql = "INSERT INTO hr_leaves (name, start_date,end_date,days,year)
 		VALUES ('$name', '$start_date','$end_date','$days','$year')";
 
 		if ($conn->query($sql) === TRUE) {
@@ -16,7 +16,7 @@
 							$title="Leave-Holiday";
 							$description="New Holiday has been add";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 		 	?>

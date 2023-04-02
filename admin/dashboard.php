@@ -1,5 +1,5 @@
 <div class="row g-5 g-xl-8">
-	<div class="col-6 col-md-3">
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-white hoverable card-xl-stretch mb-xl-8">
 			<!--begin::Body-->
@@ -16,7 +16,7 @@
 		</a>
 		<!--end::Statistics Widget 5-->
 	</div>
-	<div class="col-6 col-md-3">
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-white hoverable card-xl-stretch mb-xl-8">
 			<!--begin::Body-->
@@ -33,23 +33,8 @@
 		<!--end::Statistics Widget 5-->
 	</div>
 	
-	<div class="col-6 col-md-3">
-		<!--begin::Statistics Widget 5-->
-		<a href="#" class="card bg-white hoverable card-xl-stretch mb-5 mb-xl-8">
-			<!--begin::Body-->
-			<div class="card-body">
-				<!--begin::Svg Icon | path: icons/duotune/graphs/gra005.svg-->
-				<i class="bi bi-currency-exchange text-danger" style="font-size: 40px;"></i>
-				<label class="text-danger" style="position: absolute;font-size: 30px;right: 20px;">0</label>
-				<!--end::Svg Icon-->
-				<div class="text-danger fw-bolder fs-2 mb-2 mt-5">Payroll</div>
-				<div class="fw-bold text-danger"></div>
-			</div>
-			<!--end::Body-->
-		</a>
-		<!--end::Statistics Widget 5-->
-	</div>
-	<div class="col-6 col-md-3">
+	
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-white hoverable card-xl-stretch mb-5 mb-xl-8">
 			<!--begin::Body-->
@@ -68,7 +53,7 @@
 </div>
 
 <div class="row g-5 g-xl-8">
-	<div class="col-6 col-md-3">
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-info hoverable card-xl-stretch mb-xl-8">
 			<!--begin::Body-->
@@ -85,7 +70,7 @@
 		</a>
 		<!--end::Statistics Widget 5-->
 	</div>
-	<div class="col-6 col-md-3">
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-primary hoverable card-xl-stretch mb-xl-8">
 			<!--begin::Body-->
@@ -102,24 +87,8 @@
 		</a>
 		<!--end::Statistics Widget 5-->
 	</div>
-	<div class="col-6 col-md-3">
-		<!--begin::Statistics Widget 5-->
-		<a href="#" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
-			<!--begin::Body-->
-			<div class="card-body text-center">
-				<!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm002.svg-->
-
-				
-				<label class="text-white" style="font-size: 30px;">0</label>
-				<!--end::Svg Icon-->
-				<div class="text-white fw-bolder fs-2 mb-2 mt-5">Payslip</div>
-				<div class="fw-bold text-white"></div>
-			</div>
-			<!--end::Body-->
-		</a>
-		<!--end::Statistics Widget 5-->
-	</div>
-	<div class="col-6 col-md-3">
+	
+	<div class="col-6 col-md-4">
 		<!--begin::Statistics Widget 5-->
 		<a href="#" class="card bg-success hoverable card-xl-stretch mb-xl-8">
 			<!--begin::Body-->
@@ -203,7 +172,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM system_log ORDER BY id DESC";
+							$sql = "SELECT * FROM hr_system_log ORDER BY id DESC";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {

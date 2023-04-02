@@ -5,14 +5,14 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM leaves WHERE id='$id'";
+	$sql="DELETE FROM hr_leaves WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 
 							$title="Leave-Holiday";
 							$description="Holiday has been Remove";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 	  ?>

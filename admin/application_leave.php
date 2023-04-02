@@ -35,7 +35,7 @@
 					<!--end::Select2-->
 				</div>
 				<!--begin::Add product-->
-				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Application</a> -->
+				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Application</a>
 				<!-- <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bulk Attendance</a> -->
 				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Report</a> -->
 				<!--end::Add product-->
@@ -69,7 +69,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT l.*,(SELECT type FROM leaves_type t WHERE t.id=l.leave_type_id) AS leave_type,(SELECT f_name FROM employee e WHERE e.id=l.e_id) AS f_name,(SELECT l_name FROM employee e WHERE e.id=l.e_id) AS l_name FROM leaves_application l ORDER BY id DESC";
+							$sql = "SELECT l.*,(SELECT type FROM hr_leaves_type t WHERE t.id=l.leave_type_id) AS leave_type,(SELECT f_name FROM hr_employee e WHERE e.id=l.e_id) AS f_name,(SELECT l_name FROM hr_employee e WHERE e.id=l.e_id) AS l_name FROM hr_leaves_application l ORDER BY id DESC";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {
@@ -145,7 +145,7 @@
 						<select type="text" class="form-control form-control-solid" placeholder="" name="leave_type_id" required>
 							<option></option>
 							<?php
-								$sql = "SELECT * FROM leaves_type";
+								$sql = "SELECT * FROM hr_leaves_type";
 									$result = $conn->query($sql);
 
 									if ($result->num_rows > 0) {
@@ -234,7 +234,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM leaves_application WHERE id='$id'";
+			$sql = "SELECT * FROM hr_leaves_application WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -289,14 +289,14 @@
 		if(isset($_GET['approved'])){
 			$id=$_GET['approved'];
 
-			$sql = "UPDATE leaves_application SET status='Approved' WHERE id='$id'";
+			$sql = "UPDATE hr_leaves_application SET status='Approved' WHERE id='$id'";
 
 			if ($conn->query($sql) === TRUE) {
 
 						$title="Leave-Application";
 							$description="Leave has been Approved";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 			  ?>
@@ -313,14 +313,14 @@
 		if(isset($_GET['declined'])){
 			$id=$_GET['declined'];
 
-			$sql = "UPDATE leaves_application SET status='Declined' WHERE id='$id'";
+			$sql = "UPDATE hr_leaves_application SET status='Declined' WHERE id='$id'";
 
 			if ($conn->query($sql) === TRUE) {
 
 							$title="Leave-Application";
 							$description="Leave has been Declined";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 			  ?>

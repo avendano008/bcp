@@ -5,7 +5,7 @@
 	$id=$_POST['id'];
 	$name=$_POST['name'];
 
-	$sql="UPDATE department SET name='$name' WHERE id='$id'";
+	$sql="UPDATE hr_department SET name='$name' WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 	  ?>

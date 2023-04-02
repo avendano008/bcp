@@ -15,12 +15,16 @@
 	$date_of_birth=$_POST['date_of_birth'];
 	$date_of_joining=$_POST['date_of_joining'];
 	$date_of_leaving=$_POST['date_of_leaving'];
-	$rate_per_hour=$_POST['rate_per_hour'];
+	// $rate_per_hour=$_POST['rate_per_hour'];
+	$sss=$_POST['sss'];
+	$pagibig=$_POST['pagibig'];
+	$philhealth=$_POST['philhealth'];
+	$tin=$_POST['tin'];
 	$username=$_POST['username'];
 	$email=$_POST['email'];
 	$pass=md5($_POST['pass']);
 
-	$sql = "SELECT * FROM employee WHERE email='$email'";
+	$sql = "SELECT * FROM hr_employee WHERE email='$email'";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
@@ -35,7 +39,7 @@
 		  <?php
 	  }
 	} else {
-	  $sql = "SELECT * FROM employee WHERE cp_number='$cp_number'";
+	  $sql = "SELECT * FROM hr_employee WHERE cp_number='$cp_number'";
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
@@ -50,7 +54,7 @@
 			  <?php
 		  }
 		} else {
-		  	$sql = "SELECT * FROM employee WHERE username='$username'";
+		  	$sql = "SELECT * FROM hr_employee WHERE username='$username'";
 			$result = $conn->query($sql);
 
 			if ($result->num_rows > 0) {
@@ -65,7 +69,7 @@
 				  <?php
 			  }
 			} else {
-			  $sql = "SELECT * FROM employee WHERE f_name='$f_name' AND l_name='$l_name'";
+			  $sql = "SELECT * FROM hr_employee WHERE f_name='$f_name' AND l_name='$l_name'";
 				$result = $conn->query($sql);
 
 				if ($result->num_rows > 0) {
@@ -80,7 +84,7 @@
 					  <?php
 				  }
 				} else {
-				  $sql = "SELECT * FROM employee WHERE code='$code'";
+				  $sql = "SELECT * FROM hr_employee WHERE code='$code'";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
@@ -95,15 +99,15 @@
 						  <?php
 					  }
 					} else {
-					  $sql = "INSERT INTO employee (f_name, l_name, code, email,pass,status,department,designation,gender,blood_group,cp_number,date_of_birth,date_of_joining,date_of_leaving,username,rate_per_hour)
-						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$rate_per_hour')";
+					  $sql = "INSERT INTO hr_employee (f_name, l_name, code, email,pass,status,department,designation,gender,blood_group,cp_number,date_of_birth,date_of_joining,date_of_leaving,username,sss,pagibig,philhealth,tin)
+						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$sss','$pagibig','$philhealth','$tin')";
 
 						if ($conn->query($sql) === TRUE) {
 
 							$title="Employees";
 							$description="New Employee has been added";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 

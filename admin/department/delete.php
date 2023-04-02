@@ -5,7 +5,7 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM department WHERE id='$id'";
+	$sql="DELETE FROM hr_department WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 	  ?>

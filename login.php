@@ -19,7 +19,7 @@
 		$email=$_POST['email'];
 		$pass=md5($_POST['password']);
 
-		$sql = "SELECT * FROM admin WHERE email='$email' ";
+		$sql = "SELECT * FROM hr_admin WHERE email='$email' ";
 		$result = $conn->query($sql);
 
 		if ($result->num_rows > 0) {
@@ -45,7 +45,7 @@
 		  	}
 
 		} else {
-			$sql = "SELECT * FROM employee WHERE email='$email' OR username='$email' ";
+			$sql = "SELECT * FROM hr_employee WHERE email='$email' OR username='$email' ";
 			$result = $conn->query($sql);
 
 			if ($result->num_rows > 0) {

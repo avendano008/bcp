@@ -5,7 +5,7 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM designation WHERE id='$id'";
+	$sql="DELETE FROM hr_designation WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 	  ?>

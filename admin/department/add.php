@@ -4,7 +4,7 @@
 
 	$name=$_POST['name'];
 
-	$sql = "INSERT INTO department (name, date_time)
+	$sql = "INSERT INTO hr_department (name, date_time)
 		VALUES ('$name', NOW())";
 
 		if ($conn->query($sql) === TRUE) {

@@ -14,14 +14,18 @@
 	$date_of_birth=$_POST['date_of_birth'];
 	$date_of_joining=$_POST['date_of_joining'];
 	$date_of_leaving=$_POST['date_of_leaving'];
-	$rate_per_hour=$_POST['rate_per_hour'];
+	$sss=$_POST['sss'];
+	$pagibig=$_POST['pagibig'];
+	$philhealth=$_POST['philhealth'];
+	$tin=$_POST['tin'];
+	
 	$username=$_POST['username'];
 	$email=$_POST['email'];
 	$pass=md5($_POST['pass']);
 	$c_password=$_POST['c_password'];
 	$old=$_POST['pass'];
 
-	$sql="UPDATE employee SET f_name='$f_name',l_name='$l_name',code='$code',department='$department',designation='$designation',gender='$gender',blood_group='$blood_group',cp_number='$cp_number',date_of_birth='$date_of_birth',date_of_joining='$date_of_joining',date_of_leaving='$date_of_leaving',username='$username',email='$email',rate_per_hour='$rate_per_hour' WHERE id='$id'";
+	$sql="UPDATE hr_employee SET f_name='$f_name',l_name='$l_name',code='$code',department='$department',designation='$designation',gender='$gender',blood_group='$blood_group',cp_number='$cp_number',date_of_birth='$date_of_birth',date_of_joining='$date_of_joining',date_of_leaving='$date_of_leaving',username='$username',email='$email',rate_per_hour='$rate_per_hour' WHERE id='$id'";
 
 							
 	
@@ -30,7 +34,7 @@
 							$title="Employees";
 							$description="Employee has been updated";
 
-							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 							
@@ -41,7 +45,7 @@
 				</script>
 				<?php
 			}else{
-				$sql="UPDATE employee SET pass='$pass' WHERE id='$id'";
+				$sql="UPDATE hr_employee SET pass='$pass' WHERE id='$id'";
 				$conn->query($sql);
 				?>
 				<script type="text/javascript">

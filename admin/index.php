@@ -9,7 +9,7 @@ if(isset($_SESSION['user_id'])) {
 		$fullname=$_SESSION['f_name']." ".$_SESSION['l_name'];
 		$_SESSION['user_type']='admin';
 		
-		$sql = "SELECT a.*,IFNULL((SELECT name FROM images i WHERE i.user_id=a.id AND user_type='admin' ORDER BY i.id DESC LIMIT 1),'default.png') AS image FROM admin a WHERE id='$id'";
+		$sql = "SELECT a.*,IFNULL((SELECT name FROM hr_images i WHERE i.user_id=a.id AND user_type='admin' ORDER BY i.id DESC LIMIT 1),'default.png') AS image FROM hr_admin a WHERE id='$id'";
 		$result = $conn->query($sql);
 
 		$row = $result->fetch_assoc();
@@ -154,7 +154,7 @@ if(isset($_SESSION['user_id'])) {
 								</div>
 								
 							</div>
-							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+							<!-- <div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
 									<span class="menu-link menu-center" title="Attendance" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 										<span class="menu-icon me-0">
@@ -170,12 +170,7 @@ if(isset($_SESSION['user_id'])) {
 												</span>
 												<span class="menu-title">List</span>
 											</a>
-											<!-- <a class="menu-link active" href="./?page=add_attendance">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Add</span>
-											</a> -->
+											
 											<a class="menu-link active" href="./?page=report_attendance">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
@@ -218,7 +213,7 @@ if(isset($_SESSION['user_id'])) {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
 									<span class="menu-link menu-center" title="Leave" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
@@ -263,18 +258,18 @@ if(isset($_SESSION['user_id'])) {
 									</div>
 								</div>
 							</div>
-							<!--  
+							  
 							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
-									<span class="menu-link menu-center" title="Loan" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+									<span class="menu-link menu-center" title="Compensation" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 										<span class="menu-icon me-0">
 											<i class="bi bi-credit-card fs-2 "></i>
 										</span>
-										<span class="menu-title text-black">Loan</span>
+										<span class="menu-title text-black">Compensation</span>
 									</span>
 									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
 										<div class="menu-item">
-											<a class="menu-link active" href="./?page=grant_loan">
+											<a class="menu-link active" href="./?page=compensation">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -290,6 +285,7 @@ if(isset($_SESSION['user_id'])) {
 									</div>
 								</div>
 							</div>
+							<!--
 							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
 									<span class="menu-link menu-center" title="Notice" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">

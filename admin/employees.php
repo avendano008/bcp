@@ -85,7 +85,7 @@
 
 						<?php
 
-							$sql = "SELECT * FROM employee WHERE status='active' ORDER BY id DESC";
+							$sql = "SELECT * FROM hr_employee WHERE status='active' ORDER BY id DESC";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {
@@ -176,7 +176,7 @@
 						<label class="required fs-5 fw-bold mb-2">Department</label>
 						<select type="text" class="form-control form-control-solid" placeholder="" name="department" required>
 							<?php
-								$sql="SELECT * FROM department ORDER BY id DESC";
+								$sql="SELECT * FROM hr_department ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -196,7 +196,7 @@
 						<label class="required fs-5 fw-bold mb-2">Designation</label>
 						<select type="text" class="form-control form-control-solid" placeholder="" name="designation" required>
 							<?php
-								$sql="SELECT * FROM designation ORDER BY id DESC";
+								$sql="SELECT * FROM hr_designation ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -264,13 +264,40 @@
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>
-				<div class="col-md-6 fv-row fv-plugins-icon-container">
-					<!--begin::Label-->
+				<!-- <div class="col-md-6 fv-row fv-plugins-icon-container">
 						<label class="required fs-5 fw-bold mb-2">Rate per hour</label>
 						<input type="number" class="form-control form-control-solid" placeholder="" name="rate_per_hour" required>
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div> -->
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">SSS</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="sss" required>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Pag-Ibig</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="pagibig" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Philhealth</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="philhealth" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Tin number</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="tin" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+
 				<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
 						<label class="required fs-5 fw-bold mb-2">Username</label>
@@ -314,7 +341,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM employee WHERE id='$id'";
+			$sql = "SELECT * FROM hr_employee WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -365,7 +392,7 @@
 						<select type="text" class="form-control form-control-solid" placeholder="" name="department" required >
 							<option><?php echo$row['department']?></option>
 							<?php
-								$sql="SELECT * FROM department ORDER BY id DESC";
+								$sql="SELECT * FROM hr_department ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -386,7 +413,7 @@
 						<select type="text" class="form-control form-control-solid" placeholder="" name="designation" required >
 							<option><?php echo$row['designation']?></option>
 							<?php
-								$sql="SELECT * FROM designation ORDER BY id DESC";
+								$sql="SELECT * FROM hr_designation ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -456,8 +483,29 @@
 				</div>
 				<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Rate per hour</label>
-						<input type="number" class="form-control form-control-solid" placeholder="" name="rate_per_hour" required value="<?php echo$row['rate_per_hour']?>">
+						<label class="required fs-5 fw-bold mb-2">SSS</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="sss" required value="<?php echo$row['sss']?>">
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Pag-Ibig</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="pagibig" required value="<?php echo$row['pagibig']?>">
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Philhealth</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="philhealth" required value="<?php echo$row['philhealth']?>">
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Tin number</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="tin" required value="<?php echo$row['tin']?>">
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>

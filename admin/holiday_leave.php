@@ -66,7 +66,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM leaves";
+							$sql = "SELECT * FROM hr_leaves";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {
@@ -187,7 +187,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM leaves WHERE id='$id'";
+			$sql = "SELECT * FROM hr_leaves WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			

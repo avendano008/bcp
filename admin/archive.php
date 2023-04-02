@@ -81,7 +81,7 @@
 
 						<?php
 
-							$sql = "SELECT * FROM employee WHERE status='inactive' ORDER BY id DESC";
+							$sql = "SELECT * FROM hr_employee WHERE status='inactive' ORDER BY id DESC";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {
@@ -172,7 +172,7 @@
 						<label class="required fs-5 fw-bold mb-2">Department</label>
 						<select type="text" class="form-control form-control-solid" placeholder="" name="department" required>
 							<?php
-								$sql="SELECT * FROM department ORDER BY id DESC";
+								$sql="SELECT * FROM hr_department ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -192,7 +192,7 @@
 						<label class="required fs-5 fw-bold mb-2">Designation</label>
 						<select type="text" class="form-control form-control-solid" placeholder="" name="designation" required>
 							<?php
-								$sql="SELECT * FROM designation ORDER BY id DESC";
+								$sql="SELECT * FROM hr_designation ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -312,7 +312,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM employee WHERE id='$id'";
+			$sql = "SELECT * FROM hr_employee WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -363,7 +363,7 @@
 						<select type="text" class="form-control form-control-solid" placeholder="" name="department" required >
 							<option><?php echo$row['department']?></option>
 							<?php
-								$sql="SELECT * FROM department ORDER BY id DESC";
+								$sql="SELECT * FROM hr_department ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
@@ -384,7 +384,7 @@
 						<select type="text" class="form-control form-control-solid" placeholder="" name="designation" required >
 							<option><?php echo$row['designation']?></option>
 							<?php
-								$sql="SELECT * FROM designation ORDER BY id DESC";
+								$sql="SELECT * FROM hr_designation ORDER BY id DESC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 								  // output data of each row
