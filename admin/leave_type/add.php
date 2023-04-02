@@ -6,7 +6,7 @@
 	$number_of_days=$_POST['number_of_days'];
 
 
-	$sql = "INSERT INTO leaves_type (type, number_of_days)
+	$sql = "INSERT INTO hr_leaves_type (type, number_of_days)
 		VALUES ('$type', '$number_of_days')";
 
 		if ($conn->query($sql) === TRUE) {

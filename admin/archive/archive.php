@@ -4,7 +4,7 @@
 
 	$id=$_POST['id'];
 
-	$sql = "UPDATE employee SET status='active' WHERE id='$id'";
+	$sql = "UPDATE hr_employee SET status='active' WHERE id='$id'";
 
 		if ($conn->query($sql) === TRUE) {
 		 	?>

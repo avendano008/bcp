@@ -6,7 +6,7 @@
 	$number_of_days=$_POST['number_of_days'];
 	$id=$_POST['id'];
 
-	$sql = "UPDATE leaves_type SET type='$type',number_of_days='$number_of_days' WHERE id='$id'";
+	$sql = "UPDATE hr_leaves_type SET type='$type',number_of_days='$number_of_days' WHERE id='$id'";
 
 		if ($conn->query($sql) === TRUE) {
 

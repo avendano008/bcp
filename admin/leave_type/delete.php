@@ -5,7 +5,7 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM leaves_type WHERE id='$id'";
+	$sql="DELETE FROM hr_leaves_type WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 

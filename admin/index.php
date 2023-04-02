@@ -224,12 +224,7 @@ if(isset($_SESSION['user_id'])) {
 									</span>
 									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
 										<div class="menu-item">
-											<a class="menu-link active" href="./?page=holiday_leave">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Holiday</span>
-											</a>
+											
 											 <a class="menu-link active" href="./?page=leave_type">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
@@ -269,17 +264,11 @@ if(isset($_SESSION['user_id'])) {
 									</span>
 									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
 										<div class="menu-item">
-											<a class="menu-link active" href="./?page=compensation">
+											<a class="menu-link active" href="./?page=holiday_leave">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
-												<span class="menu-title">Grant Loan</span>
-											</a>
-											<a class="menu-link active" href="./?page=loan_archive">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Archive</span>
+												<span class="menu-title">Holiday Pay</span>
 											</a>
 										</div>
 									</div>
