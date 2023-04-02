@@ -118,7 +118,7 @@
 							</a>
 							<!--end::Logo-->
 							<!--begin::Title-->
-							<h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #29176e;">Bestlink College<br /></h1>
+							<h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #29176e;">Bestlink College of the Philippines<br /></h1>
 							<!--end::Title-->
 							<!--begin::Description-->
 							<p class="fw-bold fs-2" style="color: #29176e;">HRsystem</p>
