@@ -22,6 +22,7 @@
 	$tin=$_POST['tin'];
 	$username=$_POST['username'];
 	$email=$_POST['email'];
+	$medical_status='pending';
 	$pass=md5($_POST['pass']);
 
 	$sql = "SELECT * FROM hr_employee WHERE email='$email'";
@@ -100,7 +101,7 @@
 					  }
 					} else {
 					  $sql = "INSERT INTO hr_employee (f_name, l_name, code, email,pass,status,department,designation,gender,blood_group,cp_number,date_of_birth,date_of_joining,date_of_leaving,username,sss,pagibig,philhealth,tin,medical_status)
-						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$sss','$pagibig','$philhealth','$tin','pending')";
+						VALUES ('$f_name', '$l_name', '$code', '$email','$pass','active','$department','$designation','$gender','$blood_group','$cp_number','$date_of_birth','$date_of_joining','$date_of_leaving','$username','$sss','$pagibig','$philhealth','$tin','$medical_status')";
 
 						if ($conn->query($sql) === TRUE) {
 
