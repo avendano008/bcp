@@ -5,20 +5,20 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM hr_leaves_type WHERE id='$id'";
+	$sql="UPDATE  loan_grant SET status='Archive' WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 
-							$title="Leave-Type";
-							$description="Leave type has been remove";
+							$title="Loan";
+							$description="Loan has been move to archive";
 
-							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
+							$sql = "INSERT INTO system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 	  ?>
 		 	<script type="text/javascript">
-		 		alert('Success delete holiday');
-		 		location.href='../?page=leave_type';
+		 		alert('Success move to Archive ');
+		 		location.href='../?page=grant_loan';
 		 	</script>
 		 	<?php
 	} else {

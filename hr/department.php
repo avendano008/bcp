@@ -1,4 +1,4 @@
-<h1 class="text-success">Type List</h1><br>
+<h1 class="text-success">Department List</h1><br>
 <div class="card card-flush">
 		<!--end::Card header-->
 		<div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -31,9 +31,7 @@
 					<!--end::Select2-->
 				</div>
 				<!--begin::Add product-->
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Type</a>
-				<!-- <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bulk Attendance</a> -->
-				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Report</a> -->
+				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i> Add Department</a>
 				<!--end::Add product-->
 			</div>
 			<!--end::Card toolbar-->
@@ -53,8 +51,7 @@
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-100px">Type</th>
-							<th class="min-w-100px">Days</th>
+							<th class="min-w-100px">Name</th>
 							<th class="min-w-100px">Action</th>
 						</tr>
 						<!--end::Table row-->
@@ -63,36 +60,33 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM hr_leaves_type";
-							$result = $conn->query($sql);
+								$sql = "SELECT * FROM hr_department ORDER BY id DESC";
+								$result = $conn->query($sql);
 
-							if ($result->num_rows > 0) {
-							  // output data of each row
-							  while($row = $result->fetch_assoc()) {
-							    ?>
-							    <tr>
+								if ($result->num_rows > 0) {
+								  // output data of each row
+								  while($row = $result->fetch_assoc()) {
+								   ?>
+								   <tr>
 										<td>
 											<div class="form-check form-check-sm form-check-custom form-check-solid">
 												<input class="form-check-input" type="checkbox" value="1" />
 											</div>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['type'];?>
+											<?php echo$row['name']?>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['number_of_days'];?>
-										</td>
-										<td class="pe-0">
-											<a href="?page=<?php echo$_GET['page']?>&edit=<?php echo $row['id'];?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
-											<a href="?page=<?php echo$_GET['page']?>&trash=<?php echo $row['id'];?>" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+											<a href="?page=<?php echo$_GET['page']?>&edit=<?php echo$row['id']?>" class="btn btn-primary"><i class="bi bi-pencil"></i>Edit</a>
+											<a href="?page=<?php echo$_GET['page']?>&trash=<?php echo$row['id']?>" class="btn btn-danger"><i class="bi bi-trash"></i> Trash</a>
 										</td>
 									</tr>
-							    <?php
-							  }
-							} else {
-							  echo "0 results";
-							}
-						?>
+								   <?php
+								  }
+								} else {
+								  echo "0 results";
+								}
+							?>
 						
 					</tbody>
 					<!--end::Table body-->
@@ -111,33 +105,26 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/add.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">New Leave type</h4>
+        <h4 class="modal-title">New Department</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
       <div class="row">	
-	     	<div class="col-md-12 fv-row fv-plugins-icon-container">
-					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Type</label>
-						<input type="text" class="form-control form-control-solid" placeholder="" name="type" required>
-						<!--end::Input-->
-					<div class="fv-plugins-message-container invalid-feedback"></div>
-				</div>
-				<div class="col-md-12 fv-row fv-plugins-icon-container">
-					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Days</label>
-						<input type="number" class="form-control form-control-solid" placeholder="" name="number_of_days" required>
-						<!--end::Input-->
-					<div class="fv-plugins-message-container invalid-feedback"></div>
-				</div>		
+	     <div class="col-md-12 fv-row fv-plugins-icon-container">
+			<!--begin::Label-->
+				<label class="required fs-5 fw-bold mb-2">Name</label>
+				<input type="text" class="form-control form-control-solid" placeholder="" name="name" required>
+				<!--end::Input-->
+			<div class="fv-plugins-message-container invalid-feedback"></div>
+		</div>	
        </div>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" >Add</button>
+        <button type="submit" class="btn btn-primary">Add</button>
       </div>
       </form>
     </div>
@@ -154,44 +141,39 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM hr_leaves_type WHERE id='$id'";
+			$sql = "SELECT * FROM hr_department WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
-			
+			$name=$row['name'];
 	}else{
 			$id="";
-			
+			$name="";
 	}
 ?>
+
+
 <div class="modal fade" id="myModaledit">
   <div class="modal-dialog">
     <div class="modal-content">
     	<form method="POST" action="<?php echo$_GET['page']?>/update.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Leaves Type</h4>
+        <h4 class="modal-title">Update Department</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-	      <div class="row">	
-		     	<div class="col-md-12 fv-row fv-plugins-icon-container">
-						<!--begin::Label-->
-							<label class="required fs-5 fw-bold mb-2">Type</label>
-							<input type="text" class="form-control form-control-solid" placeholder="" name="type" required value="<?php echo$row['type']?>">
-							<input type="hidden" class="form-control form-control-solid" placeholder="" name="id" required value="<?php echo$row['id']?>">
-							<!--end::Input-->
-						<div class="fv-plugins-message-container invalid-feedback"></div>
-					</div>
-					<div class="col-md-12 fv-row fv-plugins-icon-container">
-						<!--begin::Label-->
-							<label class="required fs-5 fw-bold mb-2">Days</label>
-							<input type="number" class="form-control form-control-solid" placeholder="" name="number_of_days" required value="<?php echo$row['number_of_days']?>">
-							<!--end::Input-->
-						<div class="fv-plugins-message-container invalid-feedback"></div>
-					</div>		
-	       </div>
+      <div class="row">	
+	      <div class="col-md-12 fv-row fv-plugins-icon-container">
+			<!--begin::Label-->
+				<label class="required fs-5 fw-bold mb-2">Department Name</label>
+				<input type="text" class="form-control form-control-solid" placeholder="" name="name" required value="<?php echo$name?>">
+				<input type="hidden" name="id" value="<?php echo$id?>">
+				<!--end::Input-->
+			<div class="fv-plugins-message-container invalid-feedback"></div>
+		</div>
+       </div>
       </div>
 
       <!-- Modal footer -->
@@ -223,9 +205,9 @@
       <div class="row">	
 	      <div class="col-md-12 fv-row fv-plugins-icon-container">
 			<!--begin::Label-->
-				<label class="required fs-5 fw-bold mb-2">Holiday Name</label>
-				<input type="text" class="form-control form-control-solid" placeholder="" name="f_name" disabled required value="<?php echo$row['type']?>">
-				<input type="hidden" name="id" value="<?php echo$row['id']?>">
+				<label class="required fs-5 fw-bold mb-2">Department Name</label>
+				<input type="text" class="form-control form-control-solid" placeholder="" name="name" disabled required value="<?php echo$name?>">
+				<input type="hidden" name="id" value="<?php echo$id?>">
 				<!--end::Input-->
 			<div class="fv-plugins-message-container invalid-feedback"></div>
 		</div>

@@ -2,25 +2,25 @@
 
 	include'../../connect/connect.php';
 
-	$type=$_POST['type'];
-	$number_of_days=$_POST['number_of_days'];
+	
+	$e_id=$_POST['e_id'];
 
 
-	$sql = "INSERT INTO hr_leaves_type (type, number_of_days)
-		VALUES ('$type', '$number_of_days')";
+	$sql = "INSERT INTO hr_avon_members (e_id, date_time)
+		VALUES ('$e_id', NOW())";
 
 		if ($conn->query($sql) === TRUE) {
 
-							$title="Leave-Type";
-							$description="New leave type has been add";
+							$title="Compensation-Avon Member";
+							$description="New avon member type has been add";
 
 							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 		 	?>
 		 	<script type="text/javascript">
-		 		alert('Success add Leave Type');
-		 		location.href='../?page=leave_type';
+		 		alert('Success add Avon member');
+		 		location.href='../?page=avon_member';
 		 	</script>
 		 	<?php
 		} else {

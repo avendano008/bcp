@@ -57,10 +57,10 @@
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
 								</div>
 							</th>
+							<th class="min-w-100px">Employee name</th>
 							<th class="min-w-100px">Leave Type</th>
 							<th class="min-w-100px">Request of Application</th>
 							<th class="min-w-100px">Remarks</th>
-							<th class="min-w-100px">Status</th>
 							<th class="min-w-100px">Action</th>
 						</tr>
 						<!--end::Table row-->
@@ -69,7 +69,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT l.*,(SELECT type FROM leaves_type t WHERE t.id=l.leave_type_id) AS leave_type FROM leaves_application l WHERE l.e_id='$id' ORDER BY id DESC";
+							$sql = "SELECT l.*,(SELECT type FROM hr_leaves_type t WHERE t.id=l.leave_type_id) AS leave_type,(SELECT f_name FROM hr_employee e WHERE e.id=l.e_id) AS f_name,(SELECT l_name FROM hr_employee e WHERE e.id=l.e_id) AS l_name FROM hr_leaves_application l ORDER BY id DESC";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {
@@ -83,6 +83,9 @@
 												</div>
 											</td>
 											<td class="pe-0">
+												<?php echo$row1['f_name']?> <?php echo$row1['l_name']?>
+											</td>
+											<td class="pe-0">
 												<?php echo$row1['leave_type']?>
 											</td>
 											<td class="pe-0">
@@ -92,16 +95,14 @@
 												<?php echo$row1['remarks']?>
 											</td>
 											<td class="pe-0">
-												<?php echo$row1['status']?>
-											</td>
-											<td class="pe-0">
 												<!-- <a href="?page=<?php echo$_GET['page']?>&edit=" class="btn btn-primary"><i class="bi bi-check"></i>Edit</a> -->
 												<?php
 													if($row1['status']=="Approved" || $row1['status']=="Declined"){
-
+														echo$row1['status'];
 													}else{
 														?>
-															<a href="?page=<?php echo$_GET['page']?>&trash=<?php echo$row1['id']?>" class="btn btn-danger"><i class="bi bi-trash"></i>Remove</a>
+															<a href="?page=<?php echo$_GET['page']?>&approved=<?php echo$row1['id']?>" class="btn btn-primary"><i class="bi bi-check"></i>Approved</a>
+															<a href="?page=<?php echo$_GET['page']?>&declined=<?php echo$row1['id']?>" class="btn btn-info"><i class="bi bi-trash"></i>Declined</a>
 														<?php
 													}
 												?>
@@ -137,19 +138,60 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-      <div class="row">	
+      <div class="row">
+      	<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Employee</label>
+						<select type="text" class="form-control form-control-solid" placeholder="" name="e_id" required onchange="location.href='?page=application_leave&e_id_leave='+this.value">
+
+						<?php
+									$sql = "SELECT * FROM hr_employee";
+									$gender='';
+									$designation='';
+
+								if(isset($_GET['e_id_leave'])){
+									$e_id=$_GET['e_id_leave'];
+									$sql = "SELECT * FROM hr_employee WHERE id='$e_id'";
+								}else{
+									?><option></option><?php
+								}
+									
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+
+									  // output data of each row
+									  while($row = $result->fetch_assoc()) {
+									   ?><option value="<?php echo$row['id']?>"><?php echo$row['f_name']?> <?php echo$row['f_name']?></option><?php
+									   $gender=$row['gender'];
+									   $designation=$row['designation'];
+									  }
+									} else {
+									  ?><option></option><?php
+									}
+						?>
+					</select>
+						
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
 	     	<div class="col-md-6 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
 						<label class="required fs-5 fw-bold mb-2">Leave Type</label>
 						<select type="text" class="form-control form-control-solid" placeholder="" name="leave_type_id" required>
 							<option></option>
 							<?php
-								$sql = "SELECT * FROM leaves_type";
+								$sql = "SELECT * FROM hr_leaves_type";
 									$result = $conn->query($sql);
 
 									if ($result->num_rows > 0) {
 									  // output data of each row
 									  while($row = $result->fetch_assoc()) {
+
+									  	if($designation=='teacher' || $designation=='Teacher'){
+									  		
+									  	}
+
 									   ?>
 									   	<option value="<?php echo$row['id']?>"><?php echo$row['type']?></option>
 									   <?php
@@ -233,7 +275,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM leaves_application WHERE id='$id'";
+			$sql = "SELECT * FROM hr_leaves_application WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -283,3 +325,53 @@
 	$("#log_date").datepicker( { dateFormat: 'dd/mm/yy', maxDate: '-0Y' });
 
 </script>
+
+<?php
+		if(isset($_GET['approved'])){
+			$id=$_GET['approved'];
+
+			$sql = "UPDATE hr_leaves_application SET status='Approved' WHERE id='$id'";
+
+			if ($conn->query($sql) === TRUE) {
+
+						$title="Leave-Application";
+							$description="Leave has been Approved";
+
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
+									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
+							$conn->query($sql);
+			  ?>
+			  <script type="text/javascript">
+			  	alert('Application has been approved');
+			  	location.href="./?page=application_leave";
+			  </script>
+			  <?php
+			} else {
+			  echo "Error updating record: " . $conn->error;
+			}
+		}
+
+		if(isset($_GET['declined'])){
+			$id=$_GET['declined'];
+
+			$sql = "UPDATE hr_leaves_application SET status='Declined' WHERE id='$id'";
+
+			if ($conn->query($sql) === TRUE) {
+
+							$title="Leave-Application";
+							$description="Leave has been Declined";
+
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
+									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
+							$conn->query($sql);
+			  ?>
+			  <script type="text/javascript">
+			  	alert('Application has been Declined');
+			  	location.href="./?page=application_leave";
+			  </script>
+			  <?php
+			} else {
+			  echo "Error updating record: " . $conn->error;
+			}
+		}
+?>

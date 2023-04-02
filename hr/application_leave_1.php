@@ -2,7 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-<h1 class="text-success">Attendance List</h1><br>
+<h1 class="text-success">Leave Application List</h1><br>
 <div class="card card-flush">
 		<!--end::Card header-->
 		<div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -35,7 +35,7 @@
 					<!--end::Select2-->
 				</div>
 				<!--begin::Add product-->
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Attendance</a>
+				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Application</a>
 				<!-- <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bulk Attendance</a> -->
 				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Report</a> -->
 				<!--end::Add product-->
@@ -57,11 +57,10 @@
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-100px">Date</th>
-							<th class="min-w-100px">Sign In</th>
-							<th class="min-w-100px">Sign Out</th>
-							<th class="min-w-100px">Working Hour</th>
-							<th class="min-w-100px">Status</th>
+							<th class="min-w-100px">Employee name</th>
+							<th class="min-w-100px">Leave Type</th>
+							<th class="min-w-100px">Request of Application</th>
+							<th class="min-w-100px">Remarks</th>
 							<th class="min-w-100px">Action</th>
 						</tr>
 						<!--end::Table row-->
@@ -70,7 +69,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM attendance_log WHERE e_id='$id' ORDER BY id DESC";
+							$sql = "SELECT l.*,(SELECT type FROM hr_leaves_type t WHERE t.id=l.leave_type_id) AS leave_type,(SELECT f_name FROM hr_employee e WHERE e.id=l.e_id) AS f_name,(SELECT l_name FROM hr_employee e WHERE e.id=l.e_id) AS l_name FROM hr_leaves_application l ORDER BY id DESC";
 								$result = $conn->query($sql);
 
 								if ($result->num_rows > 0) {
@@ -84,28 +83,26 @@
 												</div>
 											</td>
 											<td class="pe-0">
-												<?php echo$row1['log_date']?>
+												<?php echo$row1['f_name']?> <?php echo$row1['l_name']?>
 											</td>
 											<td class="pe-0">
-												<?php echo$row1['log_in']?>
+												<?php echo$row1['leave_type']?>
 											</td>
 											<td class="pe-0">
-												<?php echo$row1['log_out']?>
+												<?php echo$row1['request_of_application']?>
 											</td>
 											<td class="pe-0">
-												<?php echo$row1['working_hour']?>
-											</td>
-											<td class="pe-0">
-												<?php echo$row1['status']?>
+												<?php echo$row1['remarks']?>
 											</td>
 											<td class="pe-0">
 												<!-- <a href="?page=<?php echo$_GET['page']?>&edit=" class="btn btn-primary"><i class="bi bi-check"></i>Edit</a> -->
 												<?php
 													if($row1['status']=="Approved" || $row1['status']=="Declined"){
-
+														echo$row1['status'];
 													}else{
 														?>
-															<a href="?page=<?php echo$_GET['page']?>&trash=<?php echo$row1['id']?>" class="btn btn-danger"><i class="bi bi-trash"></i>Remove</a>
+															<a href="?page=<?php echo$_GET['page']?>&approved=<?php echo$row1['id']?>" class="btn btn-primary"><i class="bi bi-check"></i>Approved</a>
+															<a href="?page=<?php echo$_GET['page']?>&declined=<?php echo$row1['id']?>" class="btn btn-info"><i class="bi bi-trash"></i>Declined</a>
 														<?php
 													}
 												?>
@@ -135,33 +132,89 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/add.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">New Attendance</h4>
+        <h4 class="modal-title">New Application Leave</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-      <div class="row">	
-	     	<div class="col-md-12 fv-row fv-plugins-icon-container">
+      <div class="row">
+      	<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<!-- <label class="required fs-5 fw-bold mb-2">Log Date</label> -->
-						<!-- <input type="date" class="form-control form-control-solid" placeholder="" name="log_date1" id="log_date1" required value="<?php echo$datestamp?>" disabled> -->
-						<input type="hidden" class="form-control form-control-solid" placeholder="" name="log_date" id="log_date" required value="<?php echo$date_now?>">
+						<label class="required fs-5 fw-bold mb-2">Employee</label>
+						<select type="text" class="form-control form-control-solid" placeholder="" name="e_id" required onchange="location.href='?page=application_leave&e_id_leave='+this.value">
+
+						<?php
+									$sql = "SELECT * FROM hr_employee";
+									$gender='';
+									$designation='';
+
+								if(isset($_GET['e_id_leave'])){
+									$e_id=$_GET['e_id_leave'];
+									$sql = "SELECT * FROM hr_employee WHERE id='$e_id'";
+								}else{
+									?><option></option><?php
+								}
+									
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+
+									  // output data of each row
+									  while($row = $result->fetch_assoc()) {
+									   ?><option value="<?php echo$row['id']?>"><?php echo$row['f_name']?> <?php echo$row['f_name']?></option><?php
+									   $gender=$row['gender'];
+									   $designation=$row['designation'];
+									  }
+									} else {
+									  ?><option></option><?php
+									}
+						?>
+					</select>
+						
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+	     	<div class="col-md-6 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Leave Type</label>
+						<select type="text" class="form-control form-control-solid" placeholder="" name="leave_type_id" required>
+							<option></option>
+							<?php
+								$sql = "SELECT * FROM hr_leaves_type";
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+									  // output data of each row
+									  while($row = $result->fetch_assoc()) {
+
+									  	if($designation=='teacher' || $designation=='Teacher'){
+									  		
+									  	}
+
+									   ?>
+									   	<option value="<?php echo$row['id']?>"><?php echo$row['type']?></option>
+									   <?php
+									  }
+									} else {
+									  echo "0 results";
+									}
+							?>
+						</select>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>
 				<div class="col-md-6 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Sign In</label>
-						<input type="time" class="form-control form-control-solid" placeholder="" name="log_in" required>
+						<label class="required fs-5 fw-bold mb-2">Request of Application</label>
+						<input type="date" class="form-control form-control-solid" placeholder="" name="request_of_application" required>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
-				</div>	
-				<div class="col-md-6 fv-row fv-plugins-icon-container">
+				</div>
+				<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Sign Out</label>
-						<input type="time" class="form-control form-control-solid" placeholder="" name="log_out" required>
-						<input type="hidden" class="form-control form-control-solid" placeholder="" name="rate_per_hour" required value="<?php echo$row['rate_per_hour']?>">
+						<label class="required fs-5 fw-bold mb-2">Remarks</label>
+						<textarea type="text" class="form-control form-control-solid" name="remarks" placeholder="Reason of application" required></textarea>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>		
@@ -222,7 +275,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM attendance_log WHERE id='$id'";
+			$sql = "SELECT * FROM hr_leaves_application WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -250,8 +303,9 @@
       <div class="row">	
 	      <div class="col-md-12 fv-row fv-plugins-icon-container">
 			<!--begin::Label-->
-				<label class="required fs-5 fw-bold mb-2">Schedule</label>
-				<input type="text" class="form-control form-control-solid" placeholder="" name="f_name" id="" disabled required value="Date:<?php echo $row['log_date']?> Time:<?php echo $row['log_in']?>-<?php echo $row['log_out']?>">
+				<label class="required fs-5 fw-bold mb-2">Application leave</label>
+				<input type="text" class="form-control form-control-solid" placeholder="" name="f_name" id="" disabled required value="Date:<?php echo$row['request_of_application']?> "><br>
+				<textarea type="text" class="form-control form-control-solid" placeholder="" name="f_name" id="" disabled required><?php echo$row['remarks']?></textarea>
 				<input type="hidden" name="id" value="<?php echo$id?>">
 				<!--end::Input-->
 			<div class="fv-plugins-message-container invalid-feedback"></div>
@@ -268,6 +322,56 @@
 </div>
 
 <script type="text/javascript">
-	$("#log_date").datepicker( { dateFormat: 'dd/mm/yy', maxDate: '-0M' });
+	$("#log_date").datepicker( { dateFormat: 'dd/mm/yy', maxDate: '-0Y' });
 
 </script>
+
+<?php
+		if(isset($_GET['approved'])){
+			$id=$_GET['approved'];
+
+			$sql = "UPDATE hr_leaves_application SET status='Approved' WHERE id='$id'";
+
+			if ($conn->query($sql) === TRUE) {
+
+						$title="Leave-Application";
+							$description="Leave has been Approved";
+
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
+									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
+							$conn->query($sql);
+			  ?>
+			  <script type="text/javascript">
+			  	alert('Application has been approved');
+			  	location.href="./?page=application_leave";
+			  </script>
+			  <?php
+			} else {
+			  echo "Error updating record: " . $conn->error;
+			}
+		}
+
+		if(isset($_GET['declined'])){
+			$id=$_GET['declined'];
+
+			$sql = "UPDATE hr_leaves_application SET status='Declined' WHERE id='$id'";
+
+			if ($conn->query($sql) === TRUE) {
+
+							$title="Leave-Application";
+							$description="Leave has been Declined";
+
+							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
+									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
+							$conn->query($sql);
+			  ?>
+			  <script type="text/javascript">
+			  	alert('Application has been Declined');
+			  	location.href="./?page=application_leave";
+			  </script>
+			  <?php
+			} else {
+			  echo "Error updating record: " . $conn->error;
+			}
+		}
+?>

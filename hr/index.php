@@ -4,22 +4,20 @@ session_start();
 
 
 if(isset($_SESSION['user_id'])) {
-	if($_SESSION['user_type']=='employee' || $_SESSION['user_type']=='background'){
+	if($_SESSION['user_type']=='hr' || $_SESSION['user_type']=='background'){
 		$id=$_SESSION['user_id'];
 		$fullname=$_SESSION['f_name']." ".$_SESSION['l_name'];
-		$_SESSION['user_type']='employee';
+		$_SESSION['user_type']='hr';
 		
-		$sql = "SELECT a.*,IFNULL((SELECT name FROM images i WHERE i.user_id=a.id AND user_type='employee' ORDER BY i.id DESC LIMIT 1),'default.png') AS image FROM employee a WHERE id='$id'";
+		$sql = "SELECT a.*,
+		IFNULL((SELECT name FROM hr_images i WHERE i.user_id=a.id AND user_type='hr' ORDER BY i.id DESC LIMIT 1),'default.png') AS image,
+		(SELECT COUNT(id) FROM hr_employee WHERE status='active') AS employee,
+		(SELECT COUNT(id) FROM hr_employee WHERE status='inactive') AS employee_archive,
+		(SELECT COUNT(id) FROM hr_leaves_application WHERE status='Approved') AS leaves
+		 FROM hr_admin a WHERE id='$id'";
 		$result = $conn->query($sql);
 
 		$row = $result->fetch_assoc();
-
-		$date_of_joining=$row['date_of_joining'];
-
-		$date1=date_create($date_of_joining);
-		$date2=date_create($datestamp);
-		$diff=date_diff($date1,$date2);
-		
 		?>
 <html lang="en">
 	<!--begin::Head-->
@@ -65,9 +63,9 @@ if(isset($_SESSION['user_id'])) {
 			<!--begin::Page-->
 			<div class="page d-flex flex-row flex-column-fluid">
 				<!--begin::Aside-->
-				<div id="kt_aside" style="background: #7bcaf6;" class="aside pb-5 pt-5 pt-lg-0" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'80px', '300px': '100px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+				<div id="kt_aside" style="background: white;" class="aside pb-5 pt-5 pt-lg-0" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'80px', '300px': '100px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
 					<!--begin::Brand-->
-					<div class="aside-logo py-8" id="kt_aside_logo" style="background: #7bcaf6;">
+					<div class="aside-logo py-8" id="kt_aside_logo" style="background: white;">
 						<!--begin::Logo-->
 						<a href="../" class="d-flex align-items-center">
 							<img alt="Logo" src="../img/logo.png" class="h-80px logo" />
@@ -101,8 +99,67 @@ if(isset($_SESSION['user_id'])) {
 								</div>
 								
 							</div>
-							
 							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Organization" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-list fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Organization</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=department">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Department</span>
+											</a>
+											<a class="menu-link active" href="./?page=designation">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Designation</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Employees" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-people fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Employees</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=employees">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Employees</span>
+											</a>
+											<!-- <a class="menu-link active" href="./?page=disciplinary">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Disciplinary</span>
+											</a> -->
+											<a class="menu-link active" href="./?page=archive">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Archive</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<!-- <div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
 									<span class="menu-link menu-center" title="Attendance" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 										<span class="menu-icon me-0">
@@ -118,52 +175,213 @@ if(isset($_SESSION['user_id'])) {
 												</span>
 												<span class="menu-title">List</span>
 											</a>
-											<!-- <a class="menu-link active" href="./?page=add_attendance">
-												<span class="menu-bullet">
-													<span class="bullet bullet-dot"></span>
-												</span>
-												<span class="menu-title">Add</span>
-											</a> -->
-											<!-- <a class="menu-link active" href="./?page=report_attendance">
+											
+											<a class="menu-link active" href="./?page=report_attendance">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
 												<span class="menu-title">Report</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Payroll" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-currency-exchange fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Payroll</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											
+											<a class="menu-link active" href="./?page=generate_payslip">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Generate Payslip</span>
+											</a>
+											<a class="menu-link active" href="./?page=list_payroll">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">List</span>
+											</a>
+											<a class="menu-link active" href="./?page=report_payroll">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Report</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div> -->
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Leave" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-person-dash fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Leave</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											
+											 <a class="menu-link active" href="./?page=leave_type">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Type</span>
+											</a>
+											<a class="menu-link active" href="./?page=application_leave">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Application</span>
+											</a>
+											<!-- <a class="menu-link active" href="./?page=earn_leave">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Earn</span>
+											</a>
+											<a class="menu-link active" href="./?page=report_leave">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Report</span> 
 											</a> -->
 										</div>
 									</div>
 								</div>
 							</div>
-							<?php
-
-
-								if($diff->format("%a")>=180){
-									?>
-									<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
-											<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
-												<span class="menu-link menu-center" title="Leave" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-													<span class="menu-icon me-0">
-														<i class="bi bi-person-dash fs-2 "></i>
-													</span>
-													<span class="menu-title text-black">Leave</span>
+							  
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Compensation" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-credit-card fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Compensation</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=holiday_leave">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
 												</span>
-												<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
-													<div class="menu-item">
-														
-														<a class="menu-link active" href="./?page=application_leave">
-															<span class="menu-bullet">
-																<span class="bullet bullet-dot"></span>
-															</span>
-															<span class="menu-title">Application</span>
-														</a>
-													</div>
-												</div>
-											</div>
+												<span class="menu-title">Holiday Pay</span>
+											</a>
 										</div>
-									<?php
-								}
-							?>
-							
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=manatory_benefits">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Mandatory Benefits</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=service_incentive">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Service Incentive</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=institutional_benefits">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Institutional Benefits</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=avon_member">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Avon Member</span>
+											</a>
+										</div>
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=bonus">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Bonus</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Promotion" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-bookmark-check fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Promotion</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											
+											 <a class="menu-link active" href="./?page=promotion">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">Employee</span>
+											</a>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--
+							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Notice" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-exclamation-diamond-fill fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Notice</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=notice">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">List</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div> -->
+							<!--<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
+								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
+									<span class="menu-link menu-center" title="Setting" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+										<span class="menu-icon me-0">
+											<i class="bi bi-gear fs-2 "></i>
+										</span>
+										<span class="menu-title text-black">Setting</span>
+									</span>
+									<div class="menu-sub menu-sub-dropdown w-225px w-lg-275px px-1 py-4">
+										<div class="menu-item">
+											<a class="menu-link active" href="./?page=setting">
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+												<span class="menu-title">View</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div> -->
 							<div class="menu menu-column menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold" id="#kt_aside_menu" data-kt-menu="true">
 								<div data-kt-menu-trigger="click" data-kt-menu-placement="right-start" class="menu-item here show py-2">
 									<span class="menu-link menu-center" title="Back to Login" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
@@ -194,7 +412,7 @@ if(isset($_SESSION['user_id'])) {
 				<!--begin::Wrapper-->
 				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
 					<!--begin::Header-->
-					<div id="kt_header" style="background: #7bcaf6;" class="header align-items-stretch">
+					<div id="kt_header" style="background: white;" class="header align-items-stretch">
 						<div class="d-flex align-items-center d-lg-none ms-n1 me-2" title="Show aside menu">
 								<div class="btn btn-icon btn-active-color-primary w-30px h-30px w-md-40px h-md-40px" id="kt_aside_mobile_toggle">
 									<!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
@@ -327,7 +545,7 @@ if(isset($_SESSION['user_id'])) {
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
 								<span class="text-muted fw-bold me-1">2022©</span>
-								© | <a href="index.html#top" class="">Calamba Water District</a> - All Rights Reserved.&nbsp;SY 2022-2023</p>
+								© | <a href="index.html#top" class="">Bestlink College of the Philippines</a> - All Rights Reserved.&nbsp;SY 2022-2023</p>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Menu-->
@@ -425,6 +643,13 @@ if(isset($_SESSION['user_id'])) {
 		    		?>
 		    		$(window).on('load', function() {
 				        $('#myModalrestore').modal('show');
+				    });
+		    		<?php
+		    	}
+		    	if(isset($_GET['print'])){
+		    		?>
+		    		$(window).on('load', function() {
+				        $('#myModalprint').modal('show');
 				    });
 		    		<?php
 		    	}

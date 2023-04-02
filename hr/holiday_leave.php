@@ -1,4 +1,4 @@
-<h1 class="text-success">Type List</h1><br>
+<h1 class="text-success">Holiday List</h1><br>
 <div class="card card-flush">
 		<!--end::Card header-->
 		<div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -31,7 +31,7 @@
 					<!--end::Select2-->
 				</div>
 				<!--begin::Add product-->
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Type</a>
+				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Holiday</a>
 				<!-- <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bulk Attendance</a> -->
 				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Report</a> -->
 				<!--end::Add product-->
@@ -53,8 +53,11 @@
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-100px">Type</th>
+							<th class="min-w-100px">Name</th>
+							<th class="min-w-100px">Start date</th>
+							<th class="min-w-100px">End date</th>
 							<th class="min-w-100px">Days</th>
+							<th class="min-w-100px">Year</th>
 							<th class="min-w-100px">Action</th>
 						</tr>
 						<!--end::Table row-->
@@ -63,7 +66,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM hr_leaves_type";
+							$sql = "SELECT * FROM hr_leaves";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {
@@ -77,10 +80,19 @@
 											</div>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['type'];?>
+											<?php echo $row['name'];?>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['number_of_days'];?>
+											<?php echo $row['start_date'];?>
+										</td>
+										<td class="pe-0">
+											<?php echo $row['end_date'];?>
+										</td>
+										<td class="pe-0">
+											<?php echo $row['days'];?>
+										</td>
+										<td class="pe-0">
+											<?php echo $row['year'];?>
 										</td>
 										<td class="pe-0">
 											<a href="?page=<?php echo$_GET['page']?>&edit=<?php echo $row['id'];?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
@@ -111,7 +123,7 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/add.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">New Leave type</h4>
+        <h4 class="modal-title">New Holiday</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -120,15 +132,36 @@
       <div class="row">	
 	     	<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Type</label>
-						<input type="text" class="form-control form-control-solid" placeholder="" name="type" required>
+						<label class="required fs-5 fw-bold mb-2">Name</label>
+						<input type="text" class="form-control form-control-solid" placeholder="" name="name" required>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>
-				<div class="col-md-12 fv-row fv-plugins-icon-container">
+				<div class="col-md-6 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Start Date</label>
+						<input type="date" class="form-control form-control-solid" placeholder="" name="start_date" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-6 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">End Date</label>
+						<input type="date" class="form-control form-control-solid" placeholder="" name="end_date" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-6 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
 						<label class="required fs-5 fw-bold mb-2">Days</label>
-						<input type="number" class="form-control form-control-solid" placeholder="" name="number_of_days" required>
+						<input type="number" class="form-control form-control-solid" placeholder="" name="days" required>
+						<!--end::Input-->
+					<div class="fv-plugins-message-container invalid-feedback"></div>
+				</div>
+				<div class="col-md-6 fv-row fv-plugins-icon-container">
+					<!--begin::Label-->
+						<label class="required fs-5 fw-bold mb-2">Year</label>
+						<input type="number" class="form-control form-control-solid" placeholder="" name="year" required>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>		
@@ -154,7 +187,7 @@
 				$id=$_GET['trash'];
 			}
 
-			$sql = "SELECT * FROM hr_leaves_type WHERE id='$id'";
+			$sql = "SELECT * FROM hr_leaves WHERE id='$id'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_assoc();
 			
@@ -169,7 +202,7 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/update.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Leaves Type</h4>
+        <h4 class="modal-title">Update Holiday</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -178,16 +211,37 @@
 	      <div class="row">	
 		     	<div class="col-md-12 fv-row fv-plugins-icon-container">
 						<!--begin::Label-->
-							<label class="required fs-5 fw-bold mb-2">Type</label>
-							<input type="text" class="form-control form-control-solid" placeholder="" name="type" required value="<?php echo$row['type']?>">
+							<label class="required fs-5 fw-bold mb-2">Name</label>
+							<input type="text" class="form-control form-control-solid" placeholder="" name="name" required value="<?php echo$row['name']?>">
 							<input type="hidden" class="form-control form-control-solid" placeholder="" name="id" required value="<?php echo$row['id']?>">
 							<!--end::Input-->
 						<div class="fv-plugins-message-container invalid-feedback"></div>
 					</div>
-					<div class="col-md-12 fv-row fv-plugins-icon-container">
+					<div class="col-md-6 fv-row fv-plugins-icon-container">
+						<!--begin::Label-->
+							<label class="required fs-5 fw-bold mb-2">Start Date</label>
+							<input type="date" class="form-control form-control-solid" placeholder="" name="start_date" required value="<?php echo$row['start_date']?>">
+							<!--end::Input-->
+						<div class="fv-plugins-message-container invalid-feedback"></div>
+					</div>
+					<div class="col-md-6 fv-row fv-plugins-icon-container">
+						<!--begin::Label-->
+							<label class="required fs-5 fw-bold mb-2">End Date</label>
+							<input type="date" class="form-control form-control-solid" placeholder="" name="end_date" required value="<?php echo$row['end_date']?>">
+							<!--end::Input-->
+						<div class="fv-plugins-message-container invalid-feedback"></div>
+					</div>
+					<div class="col-md-6 fv-row fv-plugins-icon-container">
 						<!--begin::Label-->
 							<label class="required fs-5 fw-bold mb-2">Days</label>
-							<input type="number" class="form-control form-control-solid" placeholder="" name="number_of_days" required value="<?php echo$row['number_of_days']?>">
+							<input type="number" class="form-control form-control-solid" placeholder="" name="days" required value="<?php echo$row['days']?>">
+							<!--end::Input-->
+						<div class="fv-plugins-message-container invalid-feedback"></div>
+					</div>
+					<div class="col-md-6 fv-row fv-plugins-icon-container">
+						<!--begin::Label-->
+							<label class="required fs-5 fw-bold mb-2">Year</label>
+							<input type="number" class="form-control form-control-solid" placeholder="" name="year" required value="<?php echo$row['year']?>">
 							<!--end::Input-->
 						<div class="fv-plugins-message-container invalid-feedback"></div>
 					</div>		
@@ -224,7 +278,7 @@
 	      <div class="col-md-12 fv-row fv-plugins-icon-container">
 			<!--begin::Label-->
 				<label class="required fs-5 fw-bold mb-2">Holiday Name</label>
-				<input type="text" class="form-control form-control-solid" placeholder="" name="f_name" disabled required value="<?php echo$row['type']?>">
+				<input type="text" class="form-control form-control-solid" placeholder="" name="f_name" disabled required value="<?php echo$row['name']?>">
 				<input type="hidden" name="id" value="<?php echo$row['id']?>">
 				<!--end::Input-->
 			<div class="fv-plugins-message-container invalid-feedback"></div>

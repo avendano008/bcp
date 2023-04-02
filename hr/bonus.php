@@ -1,4 +1,4 @@
-<h1 class="text-success">Type List</h1><br>
+<h1 class="text-success">Employee List</h1><br>
 <div class="card card-flush">
 		<!--end::Card header-->
 		<div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -31,9 +31,7 @@
 					<!--end::Select2-->
 				</div>
 				<!--begin::Add product-->
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Leave Type</a>
-				<!-- <a href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bulk Attendance</a> -->
-				<!-- <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Report</a> -->
+				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-plus" style="font-size: 25px;"></i>Add Bonus</a>
 				<!--end::Add product-->
 			</div>
 			<!--end::Card toolbar-->
@@ -53,9 +51,9 @@
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_ecommerce_products_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-100px">Type</th>
-							<th class="min-w-100px">Days</th>
-							<th class="min-w-100px">Action</th>
+							<th class="min-w-100px">Employee</th>
+							<th class="min-w-100px">Remarks</th>
+							<th class="min-w-100px">Date Created</th>
 						</tr>
 						<!--end::Table row-->
 					</thead>
@@ -63,7 +61,7 @@
 					<!--begin::Table body-->
 					<tbody class="fw-bold text-gray-600">
 						<?php
-							$sql = "SELECT * FROM hr_leaves_type";
+							$sql = "SELECT *,(SELECT f_name from hr_employee WHERE id=si.e_id) AS f_name ,(SELECT l_name from hr_employee WHERE id=si.e_id) AS l_name FROM hr_bonus si";
 							$result = $conn->query($sql);
 
 							if ($result->num_rows > 0) {
@@ -77,14 +75,13 @@
 											</div>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['type'];?>
+											<?php echo $row['f_name'];?> <?php echo $row['l_name'];?>
 										</td>
 										<td class="pe-0">
-											<?php echo $row['number_of_days'];?>
+											<?php echo $row['remarks'];?>
 										</td>
 										<td class="pe-0">
-											<a href="?page=<?php echo$_GET['page']?>&edit=<?php echo $row['id'];?>" class="btn btn-primary"><i class="bi bi-pencil"></i></a>
-											<a href="?page=<?php echo$_GET['page']?>&trash=<?php echo $row['id'];?>" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+											<?php echo $row['date_time'];?>
 										</td>
 									</tr>
 							    <?php
@@ -111,27 +108,52 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/add.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">New Leave type</h4>
+        <h4 class="modal-title">New Member</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-      <div class="row">	
-	     	<div class="col-md-12 fv-row fv-plugins-icon-container">
+      <div class="row">
+      	<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Type</label>
-						<input type="text" class="form-control form-control-solid" placeholder="" name="type" required>
+						<label class="required fs-5 fw-bold mb-2">Employee</label>
+						<select type="text" class="form-control form-control-solid" placeholder="" name="e_id" required >
+
+						<?php
+									$sql = "SELECT * FROM hr_employee";
+
+								if(isset($_GET['e_id_leave'])){
+									$e_id=$_GET['e_id_leave'];
+									$sql = "SELECT * FROM hr_employee WHERE id='$e_id'";
+								}else{
+									?><option></option><?php
+								}
+									
+									$result = $conn->query($sql);
+
+									if ($result->num_rows > 0) {
+
+									  // output data of each row
+									  while($row = $result->fetch_assoc()) {
+									   ?><option value="<?php echo$row['id']?>"><?php echo$row['f_name']?> <?php echo$row['f_name']?></option><?php
+									  }
+									} else {
+									  ?><option></option><?php
+									}
+						?>
+					</select>
+						
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
 				</div>
-				<div class="col-md-12 fv-row fv-plugins-icon-container">
+	     	<div class="col-md-12 fv-row fv-plugins-icon-container">
 					<!--begin::Label-->
-						<label class="required fs-5 fw-bold mb-2">Days</label>
-						<input type="number" class="form-control form-control-solid" placeholder="" name="number_of_days" required>
+						<label class="required fs-5 fw-bold mb-2">Remarks</label>
+						<textarea type="text" class="form-control form-control-solid" placeholder="Reason of Bnous" name="remarks" required></textarea>
 						<!--end::Input-->
 					<div class="fv-plugins-message-container invalid-feedback"></div>
-				</div>		
+				</div>	
        </div>
       </div>
 
@@ -169,7 +191,7 @@
     	<form method="POST" action="<?php echo$_GET['page']?>/update.php">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Leaves Type</h4>
+        <h4 class="modal-title">Update Bonus</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 

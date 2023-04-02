@@ -5,12 +5,12 @@
 	$id=$_POST['id'];
 	
 
-	$sql="DELETE FROM hr_leaves_type WHERE id='$id'";
+	$sql="DELETE FROM hr_leaves WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 
-							$title="Leave-Type";
-							$description="Leave type has been remove";
+							$title="Leave-Holiday";
+							$description="Holiday has been Remove";
 
 							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
@@ -18,7 +18,7 @@
 	  ?>
 		 	<script type="text/javascript">
 		 		alert('Success delete holiday');
-		 		location.href='../?page=leave_type';
+		 		location.href='../?page=holiday_leave';
 		 	</script>
 		 	<?php
 	} else {

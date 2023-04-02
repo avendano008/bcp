@@ -3,15 +3,15 @@
 	include'../../connect/connect.php';
 
 	$id=$_POST['id'];
-	
+	$name=$_POST['name'];
 
-	$sql="DELETE FROM attendance_log WHERE id='$id'";
+	$sql="UPDATE hr_department SET name='$name' WHERE id='$id'";
 
 	if ($conn->query($sql) === TRUE) {
 	  ?>
 		 	<script type="text/javascript">
-		 		alert('Success delete attendance');
-		 		location.href='../?page=list_attendance';
+		 		alert('Success update department');
+		 		location.href='../?page=department';
 		 	</script>
 		 	<?php
 	} else {

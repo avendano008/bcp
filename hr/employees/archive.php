@@ -2,25 +2,22 @@
 
 	include'../../connect/connect.php';
 
-	$type=$_POST['type'];
-	$number_of_days=$_POST['number_of_days'];
+	$id=$_POST['id'];
 
-
-	$sql = "INSERT INTO hr_leaves_type (type, number_of_days)
-		VALUES ('$type', '$number_of_days')";
+	$sql = "UPDATE hr_employee SET status='inactive' WHERE id='$id'";
 
 		if ($conn->query($sql) === TRUE) {
 
-							$title="Leave-Type";
-							$description="New leave type has been add";
+							$title="Employees";
+							$description="Employee has been move to archive";
 
 							$sql = "INSERT INTO hr_system_log (name, description, date_log, time_log)
 									VALUES ('$title', '$description', '$datestamp', '$timestamp')";
 							$conn->query($sql);
 		 	?>
 		 	<script type="text/javascript">
-		 		alert('Success add Leave Type');
-		 		location.href='../?page=leave_type';
+		 		alert('Success employee has been disabled');
+		 		location.href='../?page=employees';
 		 	</script>
 		 	<?php
 		} else {
