@@ -20,7 +20,7 @@
 	$pagibig=$_POST['pagibig'];
 	$philhealth=$_POST['philhealth'];
 	$tin=$_POST['tin'];
-	$username=$_POST['username'];
+	
 	$email=$_POST['email'];
 	$medical_status='pending';
 	
