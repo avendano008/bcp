@@ -22,10 +22,10 @@
 	
 	$email=$_POST['email'];
 	
-	$c_password=$_POST['c_password'];
+	
 	
 
-	$sql="UPDATE hr_employee SET f_name='$f_name',l_name='$l_name',code='$code',department='$department',designation='$designation',gender='$gender',blood_group='$blood_group',cp_number='$cp_number',date_of_birth='$date_of_birth',date_of_joining='$date_of_joining',date_of_leaving='$date_of_leaving',email='$email',rate_per_hour='$rate_per_hour' WHERE id='$id'";
+	$sql="UPDATE hr_employee SET f_name='$f_name',l_name='$l_name',code='$code',department='$department',designation='$designation',gender='$gender',blood_group='$blood_group',cp_number='$cp_number',date_of_birth='$date_of_birth',date_of_joining='$date_of_joining',date_of_leaving='$date_of_leaving',email='$email' WHERE id='$id'";
 
 							
 	
