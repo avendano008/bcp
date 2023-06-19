@@ -1,13 +1,13 @@
 <?php
-$servername = "localhost";
-$username = "u476821515_SMS";
-$password = "Bcpsms12@";
-$dbname = "u476821515_SMS";
-
 // $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "hr_db";
+// $username = "u476821515_SMS";
+// $password = "Bcpsms12@";
+// $dbname = "u476821515_SMS";
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "hr_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
